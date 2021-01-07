@@ -1,29 +1,29 @@
-###Airline Reservation System
+##  # Airline Reservation System
 A fully working webapp for an airline reservation system, developed in Flask.
 It generates a boarding pass card with a QR Code. (:D)
 
-##Author
+##   Author
 Hernest Serani
 Developed for the university course Database Management Systems.
 Ca' Foscari University of Venice.
 
-##The full documentation is in Italian Language (see below)
+##   The full documentation is in Italian Language (see below)
 
 
-##Screenshots
-<img src="/Screenshots/img_01.jpg#right" alt="drawing" width="700"/>
-<img src="/Screenshots/img_02.jpg#right" alt="drawing" width="700"/>
-<img src="/Screenshots/img_03.jpg#right" alt="drawing" width="700"/>
+##  Screenshots
+<img src="/Screenshots/img_01.jpg" alt="drawing" width="700"/>
+<img src="/Screenshots/img_02.jpg" alt="drawing" width="700"/>
+<img src="/Screenshots/img_03.jpg" alt="drawing" width="700"/>
 
-##Run
+##  Run
 export FLASK_ENV=development; export FLASK_APP='webapp.py'; flask run
 
-####Note
+##   Note
 Don't forget to download the jQuery library and Bootstrap and put it inside static/js and static/css
 
 #Full Documentation in Italian
 
-##Prerequisiti:
+##  Prerequisiti:
 • Flask, Flask-Login, Flask-SQLAlchemy.
 • Flask-QRcode 3.0.0 – Genera un codice QR con I dettagli del volo, il quale verrà inserito nella
 carta di imbarco.
@@ -31,17 +31,17 @@ carta di imbarco.
 di imbarco di una prenotazione con I dettagli del volo e dell’utente e il codice QR.
 • mySQL DBMS.
 
-###API usati:
+##  API usati:
 • Airport-Info – Estrarre I dettagli di un aeroporto dal suo codice (esempio VCE, ritorna un JSON
 con tutti i dettagli del Aeroporto di Venezia, ad esempio il nome complete, le coordinate, che si
 usano per generare una mappa dei aeroporti con Bing Maps)
 • Bing Maps API – Generare una mappa degli aeroporti, con un Polyline tra due aeroporti. Si
 usano le coordinate da Airport-Info API per mettere un Pinpoint su ogni Aeroporto del volo.
-###Librerie esterne:
+##  Librerie esterne:
 • Bootstrap – Uso della libreria Bootstrap per la parte front-end (JS, CSS).
 • jQuery – Per le chiamate AJAX nella pagina di statistiche.
 • CHARTIST.JS – Libraria JS per generare dei grafici dinamicamente.
-###Ruoli nel sistema:
+##  Ruoli nel sistema:
 1. Cliente:
 • Prenotare un volo alla sua necessità:
 ▪ Scegliere la partenza e la destinazione.
@@ -76,10 +76,10 @@ del volo da tre disponibili (Cancellato, In Orario, In Ritardo).
 ▪ Grafico con la varianza di un percorso per ogni mese di un anno.
 ▪ Una mappa del percorso.
 
-##Documentazione della base di dati.
-###Progettazione concettuale:
+##  Documentazione della base di dati.
+### Progettazione concettuale:
 Una compagnia aerea, ha una lista dei voli dove ogni volo è identificato da un ID, ha un aeroporto di partenza e destinazione, un orario di partenza e arrivo, un prezzo base, un aereo che si usa per il volo e uno stato del volo da tre possibili: Previsto, Cancellato o in Ritardo. Un utente nell’applicazione deve effettuare una prenotazione di un volo. Una prenotazione è identificata univocamente da un ID, e si memorizzano anche i seguenti dati: Il volo a cui si riferisce, l’utente che ha fatto la prenotazione, un posto nell’aereo, il numero dei bagagli e il prezzo della prenotazione. Un utente che deve effettuare una prenotazione si identifica univocamente nel sistema tramite un ID, e si memorizzano i seguenti dati: Il nome, il cognome, la mail, una password, il sesso e la data di nascita. Un utente può essere un cliente oppure un operatore. Ciascun ruolo ha diverse funzionalità nell’applicazione. La base di dati contiene anche informazioni per ogni aereo inserito nel nostro sistema come il modello e le capienze per ogni classe. Dobbiamo memorizzare anche la lista degli aeroporti, per i quali ci serve il codice IATA che identifica univocamente gli aeroporti nel mondo, la città e la nazione dove si trova.
-###Progettazione logica:
+## Progettazione logica:
 Per la rappresentazione della progettazione logica possiamo usare il modello a oggetti per descrivere la base di dati. Abbiamo 6 classi: Utenti, Prenotazioni, Voli, Posti, Aerei, Aeroporti, ognuna con i suoi rispettivi attributi come descritti sopra.
 
 • Un utente può fare più di una prenotazione oppure nessuna. (Utente -|>> Prenotazione)
@@ -91,13 +91,13 @@ Per la rappresentazione della progettazione logica possiamo usare il modello a o
 • Un volo è associato solo ad un aereo. (Volo -> Aereo)
 • Un volo ha solo un aeroporto di partenza. (Volo -> Aeroporto)
 • Un volo ha solo un aeroporto di destinazione. (Volo -> Aeroporto)
-##Lo schema della Base di Dati:
+##  Lo schema della Base di Dati:
 Abbiamo scelto come DBMS, mySQL, che è un sistema molto diffuso e offre tante funzionalità. La scelta è stata per motivi di preferenza, perché per le funzionalità che offre la nostra applicazione possiamo usare qualunque DBMS che supporta i trigger, transazioni e procedure.
 
 
-<img src="/Screenshots/db_schema.jpg#right" alt="drawing" width="700"/>
+<img src="/Screenshots/db_schema.jpg" alt="drawing" width="700"/>
 
-##DDL - Data Definition Language:
+##  DDL - Data Definition Language:
 La base di dati contiene 6 tabelle (Utenti, Prenotazioni, Voli, Posti, Aerei, Aeroporti). La tabella Utenti contiene le info di ogni utente. Un utente ha anche un ruolo che può essere Cliente oppure Operatore. Quando si registra un nuovo utente, il suo ruolo default è Cliente. Quando si crea la base di dati all’inizio è presente un solo utente che ha come ruolo Operatore. Le sue credenziali sono: (admin@compagnia.it : admin). Per cambiare un ruolo da cliente a operatore, l’admin deve accedere alla pagina /utenti e promuovere l’utente a operatore. Tutti gli operatori possono cambiare i ruoli dentro la webapp. Un utente è identificato univocamente da un ID nel nostro sistema. Gli alti attributi di un utente (oltre a ID e tipo) sono: email, password, nome, cognome, data di nascita e il sesso). Questa tabella contiene i vincoli UNIQUE sull’attributo email, un CHECK sull’attributo sesso(deve essere M o F) e DEFAULT (False) su operatore.
 
  La tabella Aeroporti contiene le informazioni base di ogni aeroporto nel sistema come il codice che è una stringa di 3 char che identifica univocamente gli aeroporti nel mondo, la nazione e la città dove si trova l’aeroporto. Questa tabella contiene il constrainct UNIQUE sull’attributo codice e sempre sull’attributo codice il vincolo CHECK che va a controllare che la lunghezza della stringa sia uguale a 3. 
@@ -115,19 +115,19 @@ La base di dati contiene 6 tabelle (Utenti, Prenotazioni, Voli, Posti, Aerei, Ae
   
   La tabella Prenotazioni contiene le informazioni per ogni prenotazione effettuata nel nostro sistema. Ogni prenotazione è associata ad un utente, un volo e un posto tramite 3 chiavi esterne (utenteID, voloID e postoID). Una prenotazione ha un ID che è la chiave primaria cioè che identifica univocamente una prenotazione effettuata. Come informazioni di una prenotazione ci sono il numero dei bagagli e il prezzo totale del biglietto (prenotazione) che si calcola sommando il prezzo base e i prezzi per ogni bagaglio dell’utente che ha prenotato il volo. La chiave esterna utenteID fa riferimento al ID dell’utente che ha effettuato la prenotazione. La chiave esterna voloID, fa riferimento ad un volo presente nel nostro sistema, e la chiave esterna postoID fa riferimento ad un posto nella tabella Posti che fa riferimento a sua volta anche al volo. Siccome l’associazione tra volo e posto dev’essere univoca abbiamo aggiunto un constraint UNIQUE (voloID, postoID), cosi siamo sicuri che 2 prenotazioni dello stesso volo non possono avere lo stesso posto. Oltre al contaraint UNIQUE sugli attributi (voloID, postoID), sono presenti 2 vincoli sull’attributo nrBagagli, uno è DEFAULT 1 e l’altro è un CHECK che va a controllare che il valore sia compreso tra 1 e 4, è presente anche un vincolo CHECK sull’attributo prezzo, il quale deve essere maggiore di 0+20*nrBagagli. Sono presenti anche i seguenti vincoli di integrità referenziale: 1) utenteID che fa riferimento all’attributo utenteID della tabella Utenti con politica di reazione ON UPDATE CASCADE. 2) voloID che fa riferimento all’attributo voloID della tabella Voli con politica di reazione ON UPDATE CASCADE. 3) postoID che fa riferimento all’attributo postoID della tabella Posti con politica di reazione ON UPDATE CASCADE. 
 
-###Procedure:
+##  Procedure:
    • aggiungiPostiDefault (Volo, capienzaPrima, capienzaSeconda, capienzaEconomy): Questa procedura viene chiamata da un trigger nel momento in cui si crea un nuovo volo. Come parametri accetta l’ID di un volo, e tre interi che rappresentano la capienza per ciascuna classe. La procedura quando viene eseguita aggiunge nella tabella Posti un certo numero di entry che avranno come cardinalità la somma di tutte e tre le capienze. Quando si aggiungono i posti si setta l’attributo libero=TRUE come valore di default. 
 
-###Trigger:
+##  Trigger:
    • AfterVoloInsert: Questo trigger si sveglia dopo un inserimento di un volo nella tabella Voli. Dopo che si è “svegliato” il trigger, si dichiarano 3 variabili per le capienze e prendono come valore le capienze rispettive dell’aereo che usa il volo, quindi si fanno tre query per prendere il numero dei posti di ciascuna classe, e tutti questi parametri vengono usati nella chiamata della procedura, che, come spiegato aggiunge automaticamente dei posti al volo appena creato.
-###Transazioni:
+##  Transazioni:
  • Prenota: Per la prenotazione di un volo abbiamo usato una transazione, che è utile nel caso in cui due utenti stiano cercando di prenotare lo stesso posto per lo stesso volo nello stesso istante. Quando inizia la transazione si verifica prima che il posto scelto sia libero e dopo aggiunge la prenotazione nel database, e setta il posto a libero=FALSE. Nel caso in cui posto sia occupato quando si inizia la transazione, si fa un rollback di essa.
-###Views:
+##  Views:
   • nrMese: Questa view serve per le query della pagina delle statistiche, praticamente si tratta di una tabella banale che contiene 12 entry con numeri da 1 a 12 che rappresentano i mesi di un anno. 
 
 
 
-##Altre Tecnologie che offre l’applicazione:
+##  Altre Tecnologie che offre l’applicazione:
 ▪ Codice QR L’applicazione permette di generare la carta di imbarco con un codice QR, dove sono salvati l’ID della prenotazione e il nome del passeggero. Il codice si genera dinamicamente usando un’estensione di Python che permette di creare immagini come codice QR. In vita reale questo si può usare nel momento in cui l’utente deve fare il check-in in aeroporto, dove può passare il codice su un lettore dei codici. Con questo codice, una prenotazione si identifica univocamente. 
 ▪ PDF – Carta di Imbarco L’applicazione permette di scaricare la carta di imbarco di una prenotazione. Nella carta d’imbarco vengono memorizzati il nome dell’utente, la partenza, destinazione e il codice QR. La carta d’imbarco viene rappresentata su html. L’estensione pdfkit di python permette di convertire una pagina html in pdf, così si può usare il pdf generato come carta di imbarco, l’utente ha la possibilità di stampare tale pdf. 
 ▪ Generazione di una mappa – (Mostrare il percorso del volo) L’applicazione usa anche due API, gratuite: 
