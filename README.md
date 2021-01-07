@@ -4,7 +4,9 @@ It generates a boarding pass card with a QR Code. (:D)
 
 ##   Author
 Hernest Serani
+
 Developed for the university course Database Management Systems.
+
 Ca' Foscari University of Venice.
 
 ##   The full documentation is in Italian Language (see below)
@@ -21,14 +23,17 @@ export FLASK_ENV=development; export FLASK_APP='webapp.py'; flask run
 ##   Note
 Don't forget to download the jQuery library and Bootstrap and put it inside static/js and static/css
 
-#Full Documentation in Italian
+# Full Documentation in Italian
 
 ##  Prerequisiti:
 • Flask, Flask-Login, Flask-SQLAlchemy.
+
 • Flask-QRcode 3.0.0 – Genera un codice QR con I dettagli del volo, il quale verrà inserito nella
 carta di imbarco.
+
 • pdfkit 0.6.1 – Genera un documento PDF da una pagina HTML. Il documento generato è la carta
 di imbarco di una prenotazione con I dettagli del volo e dell’utente e il codice QR.
+
 • mySQL DBMS.
 
 ##  API usati:
