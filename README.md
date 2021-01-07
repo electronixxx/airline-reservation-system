@@ -1,6 +1,13 @@
-# airline_reservation_system
-# https://github.com/electronixxx 
+#Airline Reservation System
 
-# #export FLASK_ENV=development; export FLASK_APP='webapp.py'; flask run
+#Author
+Hernest Serani
 
-Airline Reservation System
+##The full documentation is in Italian Language (see below)
+
+##Note
+Don't forget to download the jQuery library and Bootstrap and put it inside static/js and static/css
+
+##Run
+export FLASK_ENV=development; export FLASK_APP='webapp.py'; flask run
+
