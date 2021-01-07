@@ -1,0 +1,51 @@
+{% extends "baseoperatore.html" %}
+{% block pagebody %}
+<div class="main">
+
+    <div class="jumbotron" style="font-size: 20; width: 700; margin-left: 70px; background-color: #eeeeee;">
+        {% with messages = get_flashed_messages(with_categories=true)%}
+        {% if messages %}
+        {% for category, message in messages %}
+        <div class="alert alert-{{ category }} alert-dismissible fade show">
+            <strong>{{message}}</strong>
+            <button type="button" class="close" data-dismiss="alert">&times;</button>
+        </div>
+        {% endfor %}
+        {% endif %}
+        {% endwith %}
+
+        <h3 align="left" style="margin-left: -20px">Tutti gli utenti del sistema:</h3>
+        <br>
+        <ul class="list-group list-group-flush">
+            {% for userInfo in utentiInfo %}
+            <form method="POST">
+                <input type="hidden" name="utenteID" value="{{ userInfo[0] }}">
+
+                <li class="list-group-item">
+                    <div class="row">
+                        <div class="col-lg-8">
+                            {{userInfo[3]}} {{userInfo[4]}}
+                            {% if userInfo['operatore']==1 %}
+                            (Operatore)
+                        </div>
+                        {% if userInfo[0]|int() != utenteAttuale|int() %}
+                        <div class="col-lg-4">
+                            <input type="hidden" name="tipo" value="0">
+                            <input type="submit" class="btn btn-danger" autocomplete="off" value="Retrocedi">
+                        </div> {% endif %}
+                        {% else %}
+                        (Cliente)
+                    </div>
+                    <div class="col-lg-4">
+                        <input type="hidden" name="tipo" value="1">
+                        <input type="submit" class="btn btn-primary" autocomplete="off" value="Promuovi">
+                    </div>
+                    {% endif %}
+                </li>
+            </form>
+            {%  endfor%}
+        </ul>
+
+    </div>
+</div>
+{% endblock %}

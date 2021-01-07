@@ -1,0 +1,142 @@
+{% if ruolo=="operatore" %}
+{% extends "baseoperatore.html" %}
+{% else %}
+{% extends "basecliente.html" %}
+{% endif %}
+{% block pagebody %}
+<script>
+    var bingAPIkey = "{{bingAPIkey}}"
+    var aiportAPIkey = "{{aiportAPIkey}}";
+    var host = "{{host}}";
+</script>
+
+<script type='text/javascript'
+    src='http://www.bing.com/api/maps/mapcontrol?callback=GetMap&key={{bingAPIkey}}'
+    
+    async defer> console.log(src); </script>
+<script type='text/javascript' src="{{ url_for('static', filename='js/mappa.js') }}"></script>
+
+<div class="main">
+    <div class="jumbotron" style="font-size: 20; margin-left: 70px; background-color: #eeeeee;">
+
+        <div class="row">
+            <div align="left" class="col-lg-5" name="voloID" id="voloID" data-partenza="{{ infoPrenotazione[27] }}"
+                data-destinazione="{{ infoPrenotazione[31] }}">
+                <h3 align="left">
+                    Info della prenotazione </h3>
+            </div>
+            <div align="right" class="col-lg-5">
+                <img style="width: 100px; height: 100px;"
+                    src="{{ qrcode("prenotazioneID:" + infoPrenotazione[0]|string() + ", Passeggero:" + infoPrenotazione[9] + " " +infoPrenotazione[10])}} ">
+                </center>
+            </div>
+        </div>
+
+        <br>
+        <table class="table table-hover">
+            <tr>
+                <td>
+                <th scope="col">ID</th>
+                </td>
+                <td>#{{ infoPrenotazione[0] }}</td>
+            </tr>
+            <tr>
+                <td>
+                <th scope="col">Intestato a:</th>
+                </td>
+                <td>{{ infoPrenotazione[9] }} {{ infoPrenotazione[10] }} </td>
+            </tr>
+            <tr>
+                <td>
+                <th scope="col">Data di nascita:</th>
+                </td>
+                <td>{{ infoPrenotazione[11] }} </td>
+            </tr>
+            <tr>
+                <td>
+                <th scope="col">Sesso:</th>
+                </td>
+                <td>{{ infoPrenotazione[12] }} </td>
+            </tr>
+            <tr>
+                <td>
+                <th scope="col">Partenza:</th>
+                </td>
+                <td>{{ infoPrenotazione[27] }} - Aeroporto di {{ infoPrenotazione[29] }}, {{ infoPrenotazione[28] }}
+                </td>
+            </tr>
+            <tr>
+                <td>
+                <th scope="col">Arrivo:</th>
+                </td>
+                <td>{{ infoPrenotazione[31] }} - Aeroporto di {{ infoPrenotazione[33] }}, {{ infoPrenotazione[32] }}
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                <th scope="col">Data partenza:</th>
+                </td>
+                <td>{{ infoPrenotazione[18] }}</td>
+            </tr>
+            <tr>
+                <td>
+                <th scope="col">Data arrivo:</th>
+                </td>
+                <td>{{ infoPrenotazione[19] }}</td>
+            </tr>
+            <tr>
+                <td>
+                <th scope="col">Modello aereo:</th>
+                </td>
+                <td>{{ infoPrenotazione[34] }}</td>
+            </tr>
+            <tr>
+                <td>
+                <th scope="col">Stato attuale del volo:</th>
+                </td>
+                <td>{{ infoPrenotazione[20] }}</td>
+            </tr>
+            <tr>
+                <td>
+                <th scope="col">Numero del posto:</th>
+                </td>
+                <td>Sedile #{{ infoPrenotazione[3] }}</td>
+            </tr>
+            <tr>
+                <td>
+                <th scope="col">Classe:</th>
+                </td>
+                <td>{{ infoPrenotazione[25] }}</td>
+            </tr>
+            <tr>
+                <td>
+                <th scope="col">Numero dei bagagli:</th>
+                </td>
+                <td>{{ infoPrenotazione[4] }} Bagagli</td>
+            </tr>
+            <tr>
+                <td>
+                <th scope="col">Prezzo del biglietto:</th>
+                </td>
+                <td>{{ infoPrenotazione[5] }} €</td>
+            </tr>
+        </table>
+        <br>
+
+        <form method="POST">
+            <center><input type="submit" class="btn btn-success" style="margin: -8;" autocomplete="off"
+                    value="Scarica Carta d'Imbarco"></center>
+        </form>
+        <hr>
+
+        <select hidden name="getData" id="getData">
+            <option value="{{infoPrenotazione[0]}}" data-partenza="{{ infoPrenotazione[27] }}"
+                data-destinazione="{{ infoPrenotazione[31] }}"></option>
+        </select>
+        <center>
+            <div id="myMap" style="position:relative;width:900px;height:400px;"> </div>
+        </center>
+    </div>
+</div>
+{% endblock %}

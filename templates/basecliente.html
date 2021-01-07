@@ -1,0 +1,33 @@
+<html>
+
+<head>
+	<title>Compagnia Aerea</title>
+	<link rel="icon" href="{{ url_for('static', filename='icon/favicon.ico') }}">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link href="{{ url_for('static', filename='css/bootstrap.min.css') }}" rel="stylesheet" media="screen">
+	<link href="{{ url_for('static', filename='css/prog.css') }}" rel="stylesheet" media="screen">
+	<script src="{{ url_for('static', filename='js/jquery.js') }}"></script>
+	<script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
+</head>
+
+<body>
+	<div class="sidenav">
+		<video autoplay muted loop id="myVideo" height="165" width="220">
+			<source src="{{ url_for('static', filename='vid/background.mp4') }}" type="video/mp4">
+		</video> <br> <br>
+		<a href="/"><img src="{{ url_for('static', filename='icon/homeicon.png') }}" font-size="10" height="30"
+				width="30">
+			AREA RISERVATA</a>
+		<a href="/prenota"><img src="{{ url_for('static', filename='icon/voli.png') }}" height="30" width="30">
+			PRENOTA</a>
+		<a href="/profilo"><img src="{{ url_for('static', filename='icon/profilo.png') }}" height="30" width="30">
+			PROFILO</a>
+		<a href="/logout"><img src="{{ url_for('static', filename='icon/logout.png') }}" height="30" width="30">
+			LOGOUT</a>
+
+	</div>
+	{% block pagebody %}
+	{% endblock %}
+</body>
+
+</html>

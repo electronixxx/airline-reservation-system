@@ -1,0 +1,204 @@
+{% extends "baseoperatore.html" %}
+{% block pagebody %}
+<div class="main">
+	<div class="jumbotron" style="font-size: 20; margin-left: 70px; background-color: #eeeeee;">
+		{% with messages = get_flashed_messages(with_categories=true)%}
+		{% if messages %}
+		{% for category, message in messages %}
+		<div class="alert alert-{{ category }} alert-dismissible fade show">
+			<strong>{{message}}</strong>
+			<button type="button" class="close" data-dismiss="alert">&times;</button>
+		</div>
+		{% endfor %}
+		{% endif %}
+		{% endwith %}
+		<h3 align="left" style="margin-left: -20px"> Info del volo:</h3>
+		<br>
+		<table class="table table-hover">
+			<tr>
+				<td>
+				<th scope="col">ID</th>
+				</td>
+				<td>#{{ voloInfo[0] }}</td>
+			</tr>
+			<tr>
+				<td>
+				<th scope="col">Partenza</th>
+				</td>
+				<td>{{voloInfo[9]}} - Aeroporto di {{ voloInfo[11] }} ({{voloInfo[10]}})</td>
+			</tr>
+			<tr>
+				<td>
+				<th scope="col">Arrivo</th>
+				</td>
+				<td>{{voloInfo[13]}} - Aeroporto di {{ voloInfo[15] }} ({{voloInfo[14]}})</td>
+			</tr>
+			<tr>
+				<td>
+				<th scope="col">Orario Partenza</th>
+				</td>
+				<td>{{ voloInfo[4] }}</td>
+			</tr>
+			<tr>
+				<td>
+				<th scope="col">Orario Arrivo</th>
+				</td>
+				<td>{{ voloInfo[5] }}</td>
+			</tr>
+			<tr>
+				<td>
+				<th scope="col">Stato</th>
+				</td>
+				<td>{{ voloInfo[6] }}</td>
+			</tr>
+			<tr>
+				<td>
+				<th scope="col">Aereo</th>
+				</td>
+				<td>{{ voloInfo[17] }} (ID #{{ voloInfo[16] }})</td>
+			</tr>
+			<tr>
+				<td>
+				<th scope="col">Prezzo base</th>
+				</td>
+				<td>{{ voloInfo[7] }} € </td>
+			</tr>
+			<tr>
+				<td>
+				<th scope="col">Posti liberi</th>
+				</td>
+				<td>{{infoPosti[1]}}</td>
+			</tr>
+			<tr>
+				<td>
+				<th scope="col">Posti occupati</th>
+				</td>
+				<td>{{ infoPosti[0]}}</td>
+			</tr>
+			<tr>
+				<td>
+				<th scope="col">Posti totali</th>
+				</td>
+				<td>{{voloInfo[18]}}[Prima] {{voloInfo[19]}}[Seconda] {{voloInfo[20]}}[Economy]</td>
+			</tr>
+			<tr>
+				<td>
+				<th scope="col">Prenotazioni effettuate</th>
+				</td>
+				<td>{% if nrPrenotazioni[0] %} {{nrPrenotazioni[0]}}
+					{% else %} 0
+					{%endif%}
+				</td>
+			</tr>
+		</table>
+		<br>
+
+		<hr>
+		<h3 align="left" style="margin-left: -20px">Modifica volo:</h3>
+		<br>
+		<form method="POST">
+			<div class="row">
+				<div class="col-lg-5 ml-5">
+					<input type="hidden" name="idVolo" value="{{ voloInfo[0] }}">
+					<h3 style="font-size: 18;">DATA PARTENZA:</h3>
+					<div class="form-group">
+						<label for="data"><input type="datetime-local" name="datarrivo" class="form-control"
+								value={{ voloInfo[4].strftime('%Y-%m-%dT%H:%M') }} min="2000-01-01"
+								max="2030-01-01"></label>
+					</div>
+					<h3 style="font-size: 18;">AEROPORTO DI PARTENZA:</h3>
+					<div class="form-group">
+						<select class="form-control" name="partenzaID">
+							{%for ae in infoAeroporti%}
+							<option value={{ae[0]}} {% if ae[0]|string() ==  voloInfo[8]|string() %} selected {%endif%}>
+								{{ae[1]}} - {{ae[3]}} ({{ae[2]}})</option>
+							{%endfor%}
+						</select>
+					</div>
+					<h3 style="font-size: 18;">STATO:</h3>
+					<div class="form-group">
+						<select class="form-control" name="stato">
+							{{ voloInfo[6] }}
+							<option value="Previsto" {% if "Previsto" ==  voloInfo[6]|string() %} selected {%endif%}>
+								Previsto</option>
+							<option value="Ritardo" {% if "Ritardo" ==  voloInfo[6]|string() %} selected {%endif%}>
+								Ritardo</option>
+							<option value="Cancellato" {% if "Cancellato" ==  voloInfo[6]|string() %} selected
+								{%endif%}>Cancellato</option>
+						</select>
+					</div>
+					<label for="prezzo">
+						<h3 style="font-size: 18;">PREZZO:</h3>
+					</label>
+					<div class="form-group">
+						<input type="number" class="form-control" placeholder="Prezzo" name="prezzo"
+							value={{voloInfo[7]}} min="0">
+					</div>
+				</div>
+				<div class="col-lg-5 ml-5">
+					<h3 style="font-size: 18;">DATA ARRIVO:</h3>
+					<div class="form-group">
+						<label for="data"><input type="datetime-local" name="datapartenza" class="form-control"
+								value={{ voloInfo[5].strftime('%Y-%m-%dT%H:%M') }} min="2000-01-01"
+								max="2030-01-01"></label>
+					</div>
+					<h3 style="font-size: 18;">AEROPORTO DI DESTINAZIONE:</h3>
+					<div class="form-group">
+						<select class="form-control" name="destinazioneID">
+							{%for ae in infoAeroporti%}
+							<option value={{ae[0]}} {% if ae[0]|string() ==  voloInfo[12]|string() %} selected
+								{%endif%}>
+								{{ae[1]}} - {{ae[3]}} ({{ae[2]}})</option>
+							{%endfor%}
+						</select>
+					</div>
+					<h3 style="font-size: 18;">AEREO:</h3>
+					<div class="form-group">
+						<select class="form-control" name="aereoID">
+							{%for ae in infoAerei%}
+							<option value={{ae[0]}} {% if ae[0]|string() ==  voloInfo[16]|string() %} selected
+								{%endif%}>
+								{{ae[1]}}</option>
+							{%endfor%}
+						</select>
+					</div>
+					<br>
+					<div align="center" class="form-group">
+						<input type="submit" name="btn" class="btnSubmit btn-primary" value="Modifica" />
+					</div>
+				</div>
+			</div>
+		</form>
+
+
+		<hr>
+		<h3 align="left" style="margin-left: -20px">Lista delle prenotazioni:</h3>
+		<br>
+		<center>
+			{% if infoPrenotazioni %}
+			<div class="row" align="center">
+				{% for prenotazione in infoPrenotazioni%}
+				<div class="col-sm-5 ml-5">
+					<div class="card text-white bg-primary mb-4">
+						<div class="card-body">
+							<h5 class="card-title">Posto #{{ prenotazione[9] }} (Classe: {{ prenotazione[8] }})</h5>
+							<h5 class="card-text">Nome: {{ prenotazione[6] }} {{ prenotazione[7] }}</h5>
+						</div>
+						<div class="row"></div>
+						<a align="right" href="/infoprenotazione/{{prenotazione[0]}}"
+							class="text-primary btn btn-light">DETTAGLI
+							PRENOTAZIONE</a>
+					</div>
+				</div>
+				{%endfor %}
+			</div>
+			{% else %}
+			<h5>Nessuna prenotazione per questo volo!</h5>
+			{% endif %}
+		</center>
+	</div>
+
+</div>
+
+</html>
+{% endblock %}

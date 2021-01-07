@@ -1,0 +1,29 @@
+{
+    "key": "progetto2020",
+
+    "prezzoSymbol": "€",
+
+    "db": {
+        "dbms": "mysql",
+        "user": "nesti",
+        "password": "root",
+        "host": "localhost",
+        "port": "3306",
+        "schema": "airline"
+    },
+
+    "admin": {
+        "nome": "NAME",
+        "cognome": "LASTNAME",
+        "email": "email@provider.com",
+        "password": "passw00000rd",
+        "sesso": "M",
+        "DOB": "1990-05-29"
+    },
+
+    "API_keys": {
+        "BingMaps": "BING_MAPS_API_KEY",
+        "Airport-Info": "AIRPORT_INFO_API_KEY"
+    },
+    "host": "http://127.0.0.1:5000/"
+}

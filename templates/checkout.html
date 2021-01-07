@@ -1,0 +1,102 @@
+{% extends "basecliente.html" %}
+{% block pagebody %}
+<script>
+    var prezzoSymbol = "{{prezzoSymbol}}"
+</script>
+<script type='text/javascript' src="{{ url_for('static', filename='js/checkout.js') }}"></script>
+
+<div class="main">
+	<div class="jumbotron">
+		<center>
+			<div class="col-md-6 login-form-2">
+				<h3>CHECKOUT: </h3>
+				<br>
+				<h4 style="color: #fff;">{{infoVolo[9]}} ({{infoVolo[11]}}, {{infoVolo[10]}}) - {{infoVolo[13]}} ({{infoVolo[15]}}, {{infoVolo[14]}})</h4>
+
+
+				<form action="/checkout" method="POST">
+					<input type="hidden" name="voloID" value="{{ voloID[0] }}">
+					<div class="form-group">
+						<h4 style="color: #fff;">BAGAGLI:
+							<select name="nrBagagli" id="nrBagagli">
+								<option value="1" selected> 1 </option>
+								<option value="2"> 2 </option>
+								<option value="3"> 3 </option>
+								<option value="4"> 4 </option>
+							</select></h4>
+					</div>
+
+					<button type="button" class="btn btn-dark" id="mostraposti">POSTI</button> <br> <br>
+
+					<div class="form-group" data-toggle="buttons" style="display:none;" id="postiList">
+						<h4 style="color: #fff;">Prima classe: </h4>
+						{% for row in listaPostiLiberi %}
+						{% if row[3]=="Prima" %}
+						{% if row[2]==True %}
+						<label class="btn btn-success">
+							<input type="radio" autocomplete="off" name="postoID" value="{{ row[0] }}">{{ row[0] }}
+							<span class="fa fa-check"></span>
+						</label>
+						{% else %}
+						<label class="btn btn-danger">
+							<input type="radio" autocomplete="off" name="postoID" disabled
+								value="{{ row[0] }}">{{ row[0] }}
+							<span class="fa fa-check"></span>
+						</label>
+						{% endif %}
+						{% endif %}
+						{% endfor %}
+
+						<h4 style="color: #fff;">Seconda classe: </h4>
+						{% for row in listaPostiLiberi %}
+						{% if row[3]=="Seconda" %}
+						{% if row[2]==True %}
+						<label class="btn btn-success">
+							<input type="radio" autocomplete="off" name="postoID" value="{{ row[0] }}">{{ row[0] }}
+							<span class="fa fa-check"></span>
+						</label>
+						{% else %}
+						<label class="btn btn-danger">
+							<input type="radio" autocomplete="off" name="postoID" disabled
+								value="{{ row[0] }}">{{ row[0] }}
+							<span class="fa fa-check"></span>
+						</label>
+						{% endif %}
+						{% endif %}
+						{% endfor %}
+
+						<h4 style="color: #fff;">Economy: </h4>
+						{% for row in listaPostiLiberi %}
+						{% if row[3]=="Economy" %}
+						{% if row[2]==True %}
+						<label class="btn btn-success">
+							<input type="radio" autocomplete="off" name="postoID" value="{{ row[0] }}">{{ row[0] }}
+							<span class="fa fa-check"></span>
+						</label>
+						{% else %}
+						<label class="btn btn-danger">
+							<input type="radio" autocomplete="off" name="postoID" disabled
+								value="{{ row[0] }}">{{ row[0] }}
+							<span class="fa fa-check"></span>
+						</label>
+						{% endif %}
+						{% endif %}
+						{% endfor %}
+					</div>
+					<h4 style="text-align: left;color: #fff;" id="base" data-price="{{infoVolo[7]}}">PREZZO BASE: {{infoVolo[7]}}{{prezzoSymbol}}</h4>
+					<h4 style="text-align: left;color: #fff;" id="bags">PREZZO BAGAGLI: {{infoVolo[7]}}{{prezzoSymbol}}</h4>
+					<h4 style="text-align: left;color: #fff;" id="total">PREZZO TOTALE: {{infoVolo[7]}}{{prezzoSymbol}}</h4>
+
+					<center>
+						<div class="form-group">
+							<input type="submit" class="btnSubmit" value="PRENOTA" />
+						</div>
+					</center>
+				</form>
+			</div>
+		</center>
+	</div>
+
+</div>
+</div>
+{% endblock %}

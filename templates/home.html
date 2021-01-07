@@ -1,0 +1,31 @@
+{% extends "basehome.html" %}
+{% block pagebody %}
+<center>
+
+	<div class="main">
+		<div class="jumbotron">
+			{% with messages = get_flashed_messages(with_categories=true)%}
+			{% if messages %}
+			{% for category, message in messages %}
+			<div class="alert alert-{{ category }} alert-dismissible fade show">
+				<strong>{{message}}</strong>
+				<button type="button" class="close" data-dismiss="alert">&times;</button>
+			</div>
+			{% endfor %}
+			{% endif %}
+			{% endwith %}
+			<h1 class="display-4">COMPAGNIA AEREA</h1>
+			<br>
+			<br>
+			<h3 class="display-8"><img src="{{ url_for('static', filename='img/money.png') }}" height="50" width="50">
+				Voli low cost.</h3>
+			<br>
+			<h3 class="display-8"><img src="{{ url_for('static', filename='img/support.png') }}" height="50" width="50">
+				Supporto 24/7.</h3>
+			<br>
+			<h3 class="display-8"><img src="{{ url_for('static', filename='img/flights.png') }}" height="50" width="50">
+				Diversità di voli.</h3>
+		</div>
+	</div>
+</center>
+{% endblock %}

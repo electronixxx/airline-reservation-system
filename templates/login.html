@@ -1,0 +1,49 @@
+{% extends "basehome.html" %}
+{% block pagebody %}
+<br>
+<br>
+<center>
+
+  <div class="container login-container">
+    <div class="col-md-6 login-form-2">
+      <h3>LOGIN</h3>
+      <form method="POST">
+        <div class="form-group">
+          {% with messages = get_flashed_messages(with_categories=true)%}
+          {% if messages %}
+          {% for category, message in messages %}
+          <div class="alert alert-{{ category }} alert-dismissible fade show">
+            <strong>{{message}}</strong>
+            <button type="button" class="close" data-dismiss="alert">&times;</button>
+          </div>
+          {% endfor %}
+          {% endif %}
+          {% endwith %}
+        </div>
+        <div class="form-group">
+          <span class="input-group-addon">
+            <div class="input-group">
+              <img src="{{ url_for('static', filename='icon/email.png') }} " style="margin-right: 5;" width="40"
+                height="40" />
+              <input type="text" name="email" class="form-control" placeholder="EMAIL" />
+            </div>
+          </span>
+        </div>
+        <div class="form-group">
+          <span class="input-group-addon">
+            <div class="input-group">
+              <img src="{{ url_for('static', filename='icon/password.png') }} " style="margin-right: 5;" width="40"
+                height="40" />
+              <input type="password" name="password" class="form-control" placeholder="PASSWORD" />
+            </div>
+          </span>
+        </div>
+        <div class="form-group">
+          <input type="submit" name="btn" class="btnSubmit" value="ACCEDI" />
+        </div>
+
+      </form>
+    </div>
+  </div>
+</center>
+{% endblock %}

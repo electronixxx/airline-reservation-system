@@ -1,0 +1,159 @@
+{% extends "baseoperatore.html" %}
+{% block pagebody %}
+<script>
+    var bingAPIkey = "{{bingAPIkey}}";
+    var aiportAPIkey = "{{aiportAPIkey}}";
+</script>
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/chartist.js/latest/chartist.min.css">
+<script src="//cdn.jsdelivr.net/chartist.js/latest/chartist.min.js"></script>
+<script>
+    var prezzoSymbol = "{{prezzoSymbol}}"
+</script>
+<script type='text/javascript'
+    src='http://www.bing.com/api/maps/mapcontrol?callback=GetMap&key={{bingAPIkey}}'
+    async defer></script>
+<script type='text/javascript' src="{{ url_for('static', filename='js/stats.js') }}"></script>
+
+<div class="main">
+    <div class="jumbotron" style="font-size: 20; margin-left: 70px;     background-color: #eeeeee;">
+        <h3>Richiesta dei voli:</h3><br>
+        {% if voli %}
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th scope="col">Partenza</th>
+                    <th scope="col">Destinazione</th>
+                    <th scope="col">Nr. Prenotazioni</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for volo in voli %}
+                <tr>
+                    <td>{{volo[0]}} - {{volo[3]}} ({{volo[4]}}) </th>
+                    <td>{{volo[1]}} - {{volo[5]}} ({{volo[6]}}) </td>
+                    <td>{{volo[2]}}</td>
+                </tr>
+                {%  endfor %}
+            </tbody>
+        </table>
+        {% else %}
+        <h5>Nessun dato da mostrare!</h5>
+        {% endif %}
+        <hr>
+
+        <h3>Volo più frequente di ogni utente:</h3><br>
+        {% if voliFrequenti %}
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th scope="col">Utente</th>
+                    <th scope="col">Partenza</th>
+                    <th scope="col">Destinazione</th>
+                    <th scope="col">#Volte Viaggiato</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for volo in voliFrequenti %}
+                <tr>
+                    <td>{{volo[1]}} {{volo[2]}} ({{volo[3]}}) </th>
+                    <td>{{volo[4]}} - {{volo[5]}} ({{volo[6]}}) </td>
+                    <td>{{volo[7]}} - {{volo[8]}} ({{volo[9]}}) </td>
+                    <td>{{volo[10]}} </td>
+                </tr>
+                {%  endfor %}
+            </tbody>
+        </table>
+        {% else %}
+        <h5>Nessun dato da mostrare!</h5>
+        {% endif %}
+        <hr>
+
+        <h3>Le distribuzioni statistiche di un tragitto:</h3><br>
+        {% if aeroporti %}
+        <center>
+            <form id="dataDistribuzioni" align="center">
+                <div class="row">
+                    <div align="center" class="col-lg-3">
+                        <h3 style="font-size: 18;">PARTENZA:</h3>
+                        <div class="form-group">
+                            <select class="form-control" name="partenzaID" id="partenzaID">
+                                {% for aeroporto in aeroporti %}
+                                <option value="{{aeroporto[0]}}" data-codice="{{aeroporto[1]}}">{{aeroporto[1]}} -
+                                    {{aeroporto[3]}} ({{aeroporto[2]}})
+                                </option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                    <div align="center" class="col-lg-3">
+                        <h3 style="font-size: 18;">DESTINAZIONE:</h3>
+                        <div class="form-group">
+                            <select class="form-control" name="destinazioneID" id="destinazioneID">
+                                {% for aeroporto in aeroporti %}
+                                <option value="{{aeroporto[0]}}" data-codice="{{aeroporto[1]}}">{{aeroporto[1]}} -
+                                    {{aeroporto[3]}} ({{aeroporto[2]}})
+                                </option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                    <div align="center" class="col-lg-3">
+                        <h3 style="font-size: 18;">ANNO:</h3>
+                        <div class="form-group">
+                            <select class="form-control" name="anno" id="anno">
+                                {% for anno in anni %}
+                                <option value="{{anno}}">{{anno}}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                    <div align="right" class="col-lg-3">
+                        <br>
+                        <div class="form-group">
+                            <input href='#' id=infoPrenotazioni type="submit" name="btn" class="btnSubmit btn-primary"
+                                value="Mostra" />
+                        </div>
+                    </div>
+
+                </div>
+            </form>
+            <div id="myMap" style="position:relative;width:900px;height:400px; display:none;"> </div>
+            <div id="stato" style="display:none;">
+                <hr>
+                <h3>Probabilita' del prossimo stato:</h3><br>
+                <h5 align="left" id="inOrario"></h5>
+                <h5 align="left" id="inRitardo"></h5>
+                <h5 align="left" id="cancellato"></h5>
+            </div>
+            <div id="prenotazioni" style="display:none;">
+                <style>
+                    .ct-series-a .ct-line,
+                    .ct-series-a .ct-point,
+                    .ct-series-a .ct-slice-donut {
+                        stroke: rgb(22, 187, 36);
+                    }
+                </style>
+                <hr>
+                <h3>Il numero delle prenotazioni:</h3><br>
+                <div align="center" id="chartPrenotazioni" class="ct-chart"></div>
+            </div>
+            <div id="guadagni" style="display:none;">
+                <hr>
+                <h3>Guadagni/Perdite:</h3><br>
+                <div align="center" id="chartGuadagni" class="ct-chart "></div>
+                <h5 align="center" id="GuadagniPerdite"></h5><br>
+            </div>
+            <div id="prezzi" style="display:none;">
+                <hr>
+                <h3>Varianza del prezzo base:</h3><br>
+                <div align="center" id="chartPrezzo" class="ct-chart"></div>
+            </div>
+        </center>
+        {% else %}
+        <h5>Nessun dato da mostrare!</h5>
+        {% endif %}
+    </div>
+
+</div>
+{% endblock %}

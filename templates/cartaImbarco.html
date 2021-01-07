@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>CARTA DI IMBARCO</title>
+</head>
+
+<body><br><br><br><br><br><br><br>><br><br><br><br><br><br><br>><br><br><br>
+    <div class="container">
+        <h1>CARTA DI IMBARCO</h1>
+        <ul>
+            <li class="f_row"> <span class="moscow"
+                    data="{{ infoPrenotazione[29] }}, {{ infoPrenotazione[28] }}">{{infoPrenotazione[27]}} </span>
+                </span><svg class='arrow' xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 512">
+                    <path fill="currentColor"
+                        d="M224.3 273l-136 136c-9.4 9.4-24.6 9.4-33.9 0l-22.6-22.6c-9.4-9.4-9.4-24.6 0-33.9l96.4-96.4-96.4-96.4c-9.4-9.4-9.4-24.6 0-33.9L54.3 103c9.4-9.4 24.6-9.4 33.9 0l136 136c9.5 9.4 9.5 24.6.1 34z" />
+                </svg>
+                <span class="san"
+                    data="{{ infoPrenotazione[33] }}, {{ infoPrenotazione[32] }}">{{ infoPrenotazione[31] }}</span>
+            </li>
+            <br>
+            <center>
+                <img style="width: 200px; height: 200px;"
+                    src="{{ qrcode("prenotazioneID:" + infoPrenotazione[0]|string() + ", Passeggero:" + infoPrenotazione[9] + " " +infoPrenotazione[10])}} ">
+            </center>
+            <li class="fo_row"> <span class="passenger" data="Passeggero">{{ infoPrenotazione[9] }}
+                    {{ infoPrenotazione[10] }}</span></li>
+
+            <li class="s_row"> <span class="flight" data="Volo">V{{ infoPrenotazione[2] }}</span></span><span
+                    class="gate" data="Posto">P{{infoPrenotazione[22]}}</span></li>
+            <li class="t_row"> <span class="date" data="Data di imbarco">
+                    {{ infoPrenotazione[18] }}</span></li>
+            <br><br><br>
+
+        </ul>
+    </div>
+</body>
+
+</html>

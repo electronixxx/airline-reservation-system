@@ -1,0 +1,56 @@
+{% extends "basecliente.html" %}
+{% block pagebody %}
+<script>
+    var bingAPIkey = "{{bingAPIkey}}";
+    var aiportAPIkey = "{{aiportAPIkey}}";
+    var host = "{{host}}";
+</script>
+
+<script type='text/javascript'
+    src='http://www.bing.com/api/maps/mapcontrol?callback=GetMap&key={{bingAPIkey}}'
+    async defer></script>
+<script type='text/javascript' src="{{ url_for('static', filename='js/mappa.js') }}"></script>
+
+<div class="main">
+    <div class="jumbotron">
+        <center>
+            {% if orari %}
+            <h3>Scegli un orario:</h3>
+            <div class="col-md-4 login-form-2">
+                <h3>Orario:</h3>
+                <div class="form-group">
+                    <form action="/orari" method="POST">
+                        <select class="form-control" name="voloID" id="getData">
+                            {% for row in orari %}
+                            <h3>{{row[0]}} </h3>
+                            <option value="{{row[0]}}" data-partenza="{{row[13]}}" data-destinazione="{{row[14]}}">
+                                Partenza: {{row[4]}}  - ({{row[7]}} {{prezzoSymbol}}) </option>
+                            {% endfor %}
+                        </select>
+                </div>
+                <div class="form-group  ">
+                    <input type="submit" class="btnSubmit" style="width:200px; height:50px; padding:5px;"
+                        value="Vedi posti" />
+                </div>
+                {% endif %}
+                </form>
+
+            </div>
+
+            <br>
+            <center>
+                <div id="myMap" style="position:relative;width:900px;height:400px;"> </div>
+            </center>
+        </center>
+    </div>
+</div>
+
+
+<script>
+
+
+</script>
+
+
+
+{% endblock %}

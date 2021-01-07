@@ -1,0 +1,102 @@
+{% extends "baseoperatore.html" %}
+{% block pagebody %}
+<div class="main">
+    <div class="jumbotron" style="font-size: 20; margin-left: 70px;     background-color: #eeeeee;">
+        <h3 align="left" style="margin-left: -20px">Lista degli aeroporti:</h3> <br>
+        {% with messages = get_flashed_messages(with_categories=true)%}
+        {% if messages %}
+        {% for category, message in messages %}
+        <div class="alert alert-{{ category }} alert-dismissible fade show">
+            <strong>{{message}}</strong>
+            <button type="button" class="close" data-dismiss="alert">&times;</button>
+        </div>
+        {% endfor %}
+        {% endif %}
+        {% endwith %}
+
+        {% if aeroportiInfo %}
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th scope="col">ID</th>
+                    <th scope="col">Codice</th>
+                    <th scope="col">Nazione</th>
+                    <th scope="col">Città</th>
+                    <th scope="col">Elimina</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for aeroporto in aeroportiInfo %}
+                <form action="/eliminaaeroporto" method="POST">
+                    <tr>
+                        <th scope="row">{{aeroporto[0]}}</th>
+                        <td>{{aeroporto[1]}}</td>
+                        <td>{{aeroporto[2]}}</td>
+                        <td>{{aeroporto[3]}}</td>
+                        <input type="hidden" name="idAeroporto" value="{{ aeroporto[0] }}">
+                        <td><input type="submit" class="btn btn-danger" style="margin: -8;" autocomplete="off"
+                                value="Cancella">
+                    </tr>
+                </form>
+                {%  endfor %}
+            </tbody>
+        </table>
+        {% else %}
+        <h5>Nessun aeroporto nel database!</h5>
+        {% endif %}
+        <br>
+        <hr>
+        <div class="row">
+            <div align="center" class="col-lg-5 ml-5">
+                <h3 style="margin-left: -20px">Aggiungi un aeroporto</h3>
+                <form method="POST">
+                    <div class="form-group">
+                    </div>
+                    <div class="form-group">
+                        <input type="text" name="codice" class="form-control" placeholder="Codice" />
+                    </div>
+                    <div class="form-group">
+                        <input type="text" name="nazione" class="form-control" placeholder="Nazione" />
+                    </div>
+                    <div class="form-group">
+                        <input type="text" name="città" class="form-control" placeholder="Città" />
+                    </div>
+                    <div class="form-group">
+                        <input type="submit" name="btn" class="btnSubmit btn-primary" value="Aggiungi" />
+                    </div>
+
+                </form>
+            </div>
+            <div align="center" class="col-lg-5 ml-5">
+                <h3 style="margin-left: -20px">Modifica un aeroporto</h3>
+
+                <form action="/modificaaeroporto" method="POST">
+                    <div class="form-group">
+                    </div>
+                    <div class="form-group">
+                        <select class="form-control" name="idAeroporto">
+                            {% for aeroporto in aeroportiInfo %}
+                            <option value="{{aeroporto[0]}}">{{aeroporto[1]}} - Aeroporto di {{aeroporto[3]}}
+                                ({{aeroporto[2]}})</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <input type="text" name="codice" class="form-control" placeholder="Codice" />
+                    </div>
+                    <div class="form-group">
+                        <input type="text" name="nazione" class="form-control" placeholder="Nazione" />
+                    </div>
+                    <div class="form-group">
+                        <input type="text" name="città" class="form-control" placeholder="Città" />
+                    </div>
+                    <div class="form-group">
+                        <input type="submit" name="btn" class="btnSubmit btn-primary" value="Modifica" />
+                    </div>
+
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

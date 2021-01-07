@@ -1,0 +1,59 @@
+{% extends "basecliente.html" %}
+{% block pagebody %}
+<div class="main">
+	<div class="jumbotron">
+		<center>
+
+			<img src="{{ url_for('static', filename='icon/accounticon2.png') }}" height="100" width="100">
+			<h1>{{userInfo['nome']}} {{userInfo['cognome']}}</h1>
+			{% if userInfo['operatore']==1 %}
+			<h5>(operatore)</h5><br>
+			<h3 align="left" style="margin-left: 50px">Prenotazioni di tutti gli utenti:</h3>
+			{% else %}
+			<h5>(cliente)</h5><br>
+			<h3 align="left" style="margin-left: 50px">Le tue prenotazioni:</h3>
+			{% endif %}
+
+			{% with messages = get_flashed_messages(with_categories=true)%}
+			{% if messages %}
+			{% for category, message in messages %}
+			<div class="alert alert-{{ category }} alert-dismissible fade show" style="width: 600;">
+				<h3>{{message}}</h3>
+				<button type="button" class="close" data-dismiss="alert">&times;</button>
+			</div>
+			{% endfor %}
+			{% endif %}
+			{% endwith %}
+
+
+			{% if prenotazioniInfo %}
+			{% for row in prenotazioniInfo %}
+			<div class="row">
+				<div style="width: 21.5em;margin:0 auto;" class="col-sm-6">
+					<div class="card text-white bg-primary mb-4">
+						<div class="card-body">
+							<h4 class="card-title">{{row[17]}} ({{row[16]}}) - {{row[21]}} ({{row[20]}})</h4>
+							<h5 class="card-text">Data: {{row[10]}}
+								{% if userInfo['operatore']==1 %}
+								[ID Utente - {{row[1]}}]
+								{%endif%}
+							</h5>
+						</div>
+						<div class="row"></div>
+						<a align="right" href="/infoprenotazione/{{row[0]}}"
+							class="bg-light text-primary btn btn-primary">DETTAGLI PRENOTAZIONE</a>
+					</div>
+				</div>
+			</div>
+			{% endfor %}
+	</div>
+	{% else %}
+	<h5>Nessuna prenotazione da mostrare</h5>
+	{% endif %}
+	</center>
+</div>
+</div>
+</body>
+
+</html>
+{% endblock %}

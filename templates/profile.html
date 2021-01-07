@@ -1,0 +1,32 @@
+{% if userInfo['operatore']==1 %}
+{% extends "baseoperatore.html" %}
+{% else %}
+{% extends "basecliente.html" %}
+{% endif %}
+{% block pagebody %}
+<div class="main">
+    <div class="jumbotron">
+        <center>
+            <img src="{{ url_for('static', filename='icon/accounticon2.png') }}" height="100" width="100">
+        </center>
+        <div>
+            <style type="text/css">
+                p span {
+                    font-weight: bold;
+                    margin-left: 50px;
+                    line-height: 1;
+                }
+            </style>
+            <p><span>Nome: </span>{{userInfo[3]}}</p>
+            <p><span>Cognome: </span>{{userInfo[4]}}</p>
+            <p><span>Email: </span>{{userInfo[1]}}</p>
+            <p><span>Data di nascita: </span>{{userInfo[5]}}</p>
+            <p><span>Sesso: </span>{{userInfo[6]}}</p>
+            <p><span>Tipo utente: </span>{% if userInfo['operatore']==1 %} Operatore {% else %} Cliente {% endif %}</p>
+            <p><span>ID: </span>{{userInfo[0]}}</p>
+        </div>
+
+    </div>
+</div>
+
+{% endblock %}
